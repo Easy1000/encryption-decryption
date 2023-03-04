@@ -33,7 +33,7 @@ async function welcome() {
     This project is a simple implementation of some encryption algorithm
     You may input a message and we will apply 
     ${chalk.bgRed(
-      "CAESAR CIPHER, HILL CIPHER AND TWO TIMES ROW COLUMN TRANSPOSITION"
+      "CAESAR CIPHER, VIGENERE CIPHER, HILL CIPHER AND TWO TIMES ROW COLUMN TRANSPOSITION"
     )}
 
     So let's get started!
