@@ -8,8 +8,8 @@ import figlet from "figlet";
 import { createSpinner } from "nanospinner";
 
 const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-let onGoing = false;
 const rowColumnKey = [1, 0, 2];
+const caesarKey = 4;
 const keyMatrix = [
   [6, 24, 1],
   [13, 16, 10],
@@ -25,13 +25,11 @@ const sleep = (ms = 2000) => new Promise((r) => setTimeout(r, ms));
 
 await welcome();
 await askMode();
-// await finish();
 
 async function welcome() {
   const rainbowTitle = chalkAnimation.rainbow(
     "Encryption and Decryption Mini Project"
   );
-  onGoing = true;
 
   await sleep();
   rainbowTitle.stop();
@@ -68,7 +66,9 @@ async function askEncryptionInput() {
   });
 
   const encrypted = rowColumnTransposition(
-    rowColumnTransposition(hillCipherEncryption(answer.encryptionInput))
+    rowColumnTransposition(
+      hillCipherEncryption(caesarCipher(answer.encryptionInput))
+    )
   );
   const spinner = createSpinner("Encrypting...").start();
   await sleep();
@@ -89,12 +89,14 @@ async function askDecryptionInput() {
     type: "input",
     message: "Fill in the encrypted message!",
     default() {
-      return "VYMWOESRGWLX";
+      return "PYMWIYSRAWLX";
     },
   });
 
-  const decrypted = hillCipherDecryption(
-    rowColumnDecipher(rowColumnDecipher(answer.decryptionInput))
+  const decrypted = caesarDecipher(
+    hillCipherDecryption(
+      rowColumnDecipher(rowColumnDecipher(answer.decryptionInput))
+    )
   );
   const spinner = createSpinner("Decrypting...").start();
   await sleep();
@@ -108,10 +110,6 @@ async function askDecryptionInput() {
 }
 
 async function handleAnswer(answer) {
-  // const spinner = createSpinner("Loading...").start();
-  // await sleep();
-  // spinner.stop();
-
   if (answer == "Encryption") {
     askEncryptionInput();
   } else if (answer == "Decryption") {
@@ -124,7 +122,7 @@ async function handleAnswer(answer) {
 async function finish() {
   console.clear();
   const message = `Thank You`;
-  await sleep(500)
+  await sleep(500);
 
   figlet(message, (err, data) => {
     console.log(gradient.pastel.multiline(data));
@@ -259,6 +257,37 @@ function rowColumnDecipher(message) {
   rowColumn.forEach((row) => {
     row.forEach((letter) => (decipherText += letter));
   });
+
+  return decipherText;
+}
+
+function caesarCipher(message) {
+  message = message.toUpperCase();
+  message = message.replace(/\s+/g, "");
+
+  let cipherText = "";
+  for (let i = 0; i < message.length; i++) {
+    cipherText += alphabet.charAt(
+      (alphabet.indexOf(message[i]) + caesarKey) % 26
+    );
+  }
+
+  return cipherText;
+}
+
+function caesarDecipher(message) {
+  message = message.toUpperCase();
+  message = message.replace(/\s+/g, "");
+
+  let decipherText = "";
+  for (let i = 0; i < message.length; i++) {
+    let shift = alphabet.indexOf(message[i]) - caesarKey;
+
+    if (shift < 0) shift = 26 + shift;
+    else shift %= 26;
+
+    decipherText += alphabet.charAt(shift);
+  }
 
   return decipherText;
 }
