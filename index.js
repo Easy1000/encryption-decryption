@@ -124,6 +124,6 @@ async function finish() {
 
   figlet(message, (err, data) => {
     console.log(gradient.pastel.multiline(data));
-    console.log("Made by Izzi, Willima and Bani");
+    console.log("Made by Izzi, William and Bani");
   });
 }
