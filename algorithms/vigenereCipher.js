@@ -1,4 +1,4 @@
-import { alphabet } from "./alphabet.js";
+import { alphabet } from "../alphabet.js";
 
 const vigenereKey = "ITADORI";
 

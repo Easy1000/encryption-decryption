@@ -7,13 +7,13 @@ import chalkAnimation from "chalk-animation";
 import figlet from "figlet";
 import { createSpinner } from "nanospinner";
 
-import { hillCipherDecryption, hillCipherEncryption } from "./hillCipher.js";
+import { hillCipherDecryption, hillCipherEncryption } from "./algorithms/hillCipher.js";
 import {
   rowColumnTransposition,
   rowColumnDecipher,
-} from "./rowColumnTransposition.js";
-import { caesarCipher, caesarDecipher } from "./caesarCipher.js";
-import { vigenereCipher, vigenereDecipher } from "./vigenereCipher.js";
+} from "./algorithms/rowColumnTransposition.js";
+import { caesarCipher, caesarDecipher } from "./algorithms/caesarCipher.js";
+import { vigenereCipher, vigenereDecipher } from "./algorithms/vigenereCipher.js";
 
 const sleep = (ms = 2000) => new Promise((r) => setTimeout(r, ms));
 
